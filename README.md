@@ -1,9 +1,5 @@
-# React + Vite
+# s24 Ohjelmistoprojekti 1 - SOF005AS3A-3013
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Tiimi 3
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-"# s24Tiimi3FrontEnd" 
+Link to GitHub pages: https://ohjelmistoprojekti-1-tiimi-3.github.io/s24Tiimi3FrontEnd/
