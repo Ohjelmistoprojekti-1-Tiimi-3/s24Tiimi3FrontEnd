@@ -1,11 +1,16 @@
+import { Link, Outlet } from 'react-router-dom'
 import './App.css'
 
 function App() {
 
   return (
     <>
-      <h1>Pääsivu</h1>
-      <p>Työnalla...</p>
+      <nav>
+        <Link to={"/"}>Etusivu</Link>
+        <Link to={"/products"}>Tuotteet</Link>
+        <Link to={"/about"}>Meistä</Link>
+      </nav>
+      <Outlet />
     </>
   )
 }
