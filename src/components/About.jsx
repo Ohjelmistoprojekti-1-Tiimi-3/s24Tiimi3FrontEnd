@@ -13,14 +13,10 @@ const About = () => {
       <h1>{storeInfo.name}</h1>
       <p><strong>Perustettu:</strong> {storeInfo.establishedYear}</p>
       <p><strong>Y-tunnus:</strong> {storeInfo.businessId}</p>
-      <h3>Omistajat:</h3>
-      <ul>
-        {storeInfo.owners.map((owner, index) => (
-          <li key={index}>{owner}</li>
-        ))}
-      </ul>
+      <p><strong>Omistajat: </strong>{storeInfo.owners.join(", ")}</p>
     </div>
   );
 };
+    
 
 export default About;
