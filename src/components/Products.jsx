@@ -14,7 +14,7 @@ export default function Products() {
     ]);
 
     const getProducts = () => {
-        fetch("https://tiimi-3-back-end-tiimi3-backend.2.rahtiapp.fi/api/products", { method: 'GET' })
+        fetch("https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/products", { method: 'GET' })
         .then(response => {
             console.log("response: ", response);
             return response.json();
