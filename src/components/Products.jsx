@@ -16,15 +16,15 @@ export default function Products() {
     ]);
 
     // Hakee kaikki tuotteet tai suodattaa tuotteet valitun valmistajan mukaan
-    const getProducts = (manufacturerId = "") => {
-        const url = manufacturerId
-            ? `https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/products?manufacturer=${manufacturerId}`
+    const getProducts = (manufacturerName = "") => {
+        const url = manufacturerName
+            ? `https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/searchByManufacturer?manufacturer=${manufacturerName}`
             : "https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/products";
         
         fetch(url, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                console.log("data ", data);
+                console.log("Fetched products: ", data);
                 setProducts(data);  // Aseta tuotteet tilaan
             })
             .catch(err => {
@@ -37,7 +37,7 @@ export default function Products() {
         fetch("https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/manufacturers", { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                console.log("Manufacturers data: ", data);
+                console.log("Fetched manufacturers: ", data);
                 setManufacturers(data);  // Tallenna valmistajat tilaan
             })
             .catch(err => {
@@ -47,12 +47,13 @@ export default function Products() {
 
     // Suodatetaan tuotteet valitun valmistajan mukaan
     const handleManufacturerChange = (event) => {
-        const manufacturerId = event.target.value;
-        setSelectedManufacturer(manufacturerId);
-        getProducts(manufacturerId);  // Hakee tuotteet valitun valmistajan mukaan
+        const manufacturerName = event.target.value;
+        console.log("Selected Manufacturer: ", manufacturerName);  // Debugging: tulostetaan valittu valmistaja
+        setSelectedManufacturer(manufacturerName);
+        getProducts(manufacturerName);  // Hakee tuotteet valitun valmistajan mukaan
     };
 
-    useEffect(() => {
+    useEffect(() => { 
         getProducts();  // Hakee kaikki tuotteet aluksi
         getManufacturers();  // Hakee valmistajat
     }, []);
@@ -65,7 +66,7 @@ export default function Products() {
                     <option value="">Kaikki valmistajat</option>
                     {manufacturers.length > 0 ? (
                         manufacturers.map(manufacturer => (
-                            <option key={manufacturer.manufacturerid} value={manufacturer.manufacturerid}>
+                            <option key={manufacturer.manufacturerid} value={manufacturer.manufacturername}>
                                 {manufacturer.manufacturername}
                             </option>
                         ))
@@ -74,6 +75,7 @@ export default function Products() {
                     )}
                 </select>
             </div>
+
             <div className="ag-theme-material" style={{ width: 900, height: 500 }}>
                 <AgGridReact 
                     rowData={products}
