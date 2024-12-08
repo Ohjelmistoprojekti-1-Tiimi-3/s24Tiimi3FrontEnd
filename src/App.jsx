@@ -16,7 +16,7 @@ function App() {
             Omppu & Rane Koiratarvikkeet
           </Typography>
           <Stack direction='row' spacing={2}>
-            <Link to={"/"} >Etusivu</Link>
+            <Link to={"/"} color='inherit'>Etusivu</Link>
             <Link to={"/products"}>Tuotteet</Link>
             <Link to={"/about"}>Meistä</Link>
             <Link to={"/register"}>Rekisteröidy</Link>
