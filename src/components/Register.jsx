@@ -2,10 +2,11 @@ import { useState } from "react";
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
+    customername: "",
+    customerlastname: "",
+    customeremail: "",
+    username: "",
+    passwordhash: "",
   });
 
   const [message, setMessage] = useState("");
@@ -21,40 +22,91 @@ export default function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
+    if (
+      !formData.customername ||
+      !formData.customerlastname ||
+      !formData.customeremail ||
+      !formData.username ||
+      !formData.passwordhash
+    ) {
       alert("Kaikki kentät ovat pakollisia!");
       return;
     }
 
-    fetch("https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/customers", {
+    // 1. Rekisteröidään asiakas
+    fetch("https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/addcustomer", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        password: formData.password,
+        customername: formData.customername,
+        customerlastname: formData.customerlastname,
+        customeremail: formData.customeremail,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.message) {
-          setMessage(data.message);
-          setFormData({
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: "",
-          });
+        console.log("Add customer:", data);
+        if (data.id) {
+          // 2. Rekisteröidään appuser (käyttäjätunnus ja salasana)
+          fetch("https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/addappuser", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: formData.username,
+              passwordhash: formData.passwordhash,
+            }),
+          })
+            .then((response) => response.json())
+            .then((userData) => {
+              console.log("Add appuser:", userData);
+              if (userData.id) {
+                // 3. Liitetään appuser customeriin
+                fetch(
+                  `https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/customer/${id}`,
+                  {
+                    method: "PUT",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      appUser: { id: userData.id },
+                    }),
+                  }
+                )
+                  .then((response) => response.json())
+                  .then((finalData) => {
+                    setMessage("Rekisteröinti onnistui.");
+                    setFormData({
+                      customername: "",
+                      customerlastname: "",
+                      customeremail: "",
+                      username: "",
+                      passwordhash: "",
+                    });
+                  })
+                  .catch((error) => {
+                    console.error("Virhe appuserin liittämisessä:", error);
+                    setMessage("Virhe appuserin liittämisessä.");
+                  });
+              } else {
+                setMessage("Appuserin luonti epäonnistui.");
+              }
+            })
+            .catch((error) => {
+              console.error("Virhe appuserin luomisessa:", error);
+              setMessage("Virhe appuserin luomisessa.");
+            });
         } else {
-          setMessage("Rekisteröinti epäonnistui.");
+          setMessage("Asiakkaan luonti epäonnistui.");
         }
       })
       .catch((error) => {
-        console.error("Virhe rekisteröinnissä:", error);
-        setMessage("Virhe rekisteröinnissä.");
+        console.error("Virhe asiakkaan luomisessa:", error);
+        setMessage("Virhe asiakkaan luomisessa.");
       });
   };
 
@@ -64,45 +116,56 @@ export default function Register() {
       {message && <p>{message}</p>}
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="firstName">Etunimi:</label>
+          <label htmlFor="customername">Etunimi:</label>
           <input
             type="text"
-            id="firstName"
-            name="firstName"
-            value={formData.firstName}
+            id="customername"
+            name="customername"
+            value={formData.customername}
             onChange={handleChange}
             style={{ width: "100%", padding: "8px", marginTop: "5px" }}
           />
         </div>
         <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="lastName">Sukunimi:</label>
+          <label htmlFor="customerlastname">Sukunimi:</label>
           <input
             type="text"
-            id="lastName"
-            name="lastName"
-            value={formData.lastName}
+            id="customerlastname"
+            name="customerlastname"
+            value={formData.customerlastname}
             onChange={handleChange}
             style={{ width: "100%", padding: "8px", marginTop: "5px" }}
           />
         </div>
         <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="email">Sähköposti:</label>
+          <label htmlFor="customeremail">Sähköposti:</label>
           <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
+            type="customeremail"
+            id="customeremail"
+            name="customeremail"
+            value={formData.customeremail}
             onChange={handleChange}
             style={{ width: "100%", padding: "8px", marginTop: "5px" }}
           />
         </div>
         <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="password">Salasana:</label>
+          <label htmlFor="username">Käyttäjätunnus:</label>
           <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
+            type="text"
+            id="username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+          />
+        </div>
+        <div style={{ marginBottom: "10px" }}>
+          <label htmlFor="passwordhash">Salasana:</label>
+          <input
+            type="passwordhash"
+            id="passwordhash"
+            name="passwordhash"
+            value={formData.passwordhash}
             onChange={handleChange}
             style={{ width: "100%", padding: "8px", marginTop: "5px" }}
           />

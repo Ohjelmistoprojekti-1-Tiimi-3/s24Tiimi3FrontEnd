@@ -2,22 +2,22 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [passwordhash, setPasswordhash] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    fetch("https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/login", {
-      method: "POST",
+    fetch("https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/appuser/{username}", {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: email,
-        password: password,
+        username: username,
+        passwordhash: passwordhash,
       }),
     })
       .then((response) => {
@@ -30,7 +30,7 @@ const Login = () => {
         if (data.success) {
           navigate("/");
         } else {
-          setError(data.message || "Virheellinen sähköposti tai salasana.");
+          setError(data.message || "Virheellinen käyttäjätunnus tai salasana.");
         }
       })
       .catch((error) => {
@@ -44,25 +44,25 @@ const Login = () => {
       <h2>Kirjaudu sisään</h2>
       <form onSubmit={handleLogin}>
         <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="email">Sähköposti:</label>
+          <label htmlFor="username">Käyttäjätunnus:</label>
           <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            id="username"
+            name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             style={{ width: "100%", padding: "8px", marginTop: "5px" }}
             required
           />
         </div>
         <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="password">Salasana:</label>
+          <label htmlFor="passwordhash">Salasana:</label>
           <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            type="passwordhash"
+            id="passwordhash"
+            name="passwordhash"
+            value={passwordhash}
+            onChange={(e) => setPasswordhash(e.target.value)}
             style={{ width: "100%", padding: "8px", marginTop: "5px" }}
             required
           />
