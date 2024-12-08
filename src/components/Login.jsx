@@ -27,10 +27,8 @@ const Login = () => {
         return response.json();
       })
       .then((data) => {
-        // Tarkistetaan, onko kirjautuminen onnistunut
         if (data.success) {
-          // Jos kirjautuminen onnistui, siirretään käyttäjä etusivulle
-          navigate("/"); // Voit määritellä reitin haluamaksesi
+          navigate("/");
         } else {
           setError(data.message || "Virheellinen sähköposti tai salasana.");
         }

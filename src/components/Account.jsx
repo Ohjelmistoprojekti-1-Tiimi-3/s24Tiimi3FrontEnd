@@ -31,7 +31,6 @@ const Account = () => {
     }
   }, []);
 
-  // Poista käyttäjä tililtä
   const handleDeleteAccount = () => {
     if (window.confirm("Haluatko varmasti poistaa tilisi? Tämä ei ole peruttavissa.")) {
       const currentUserEmail = localStorage.getItem("currentUserEmail");
@@ -41,10 +40,9 @@ const Account = () => {
       })
         .then((response) => {
           if (response.ok) {
-            // Poistetaan käyttäjä ja kirjautuminen
             localStorage.removeItem("currentUserEmail");
             alert("Tilisi on poistettu.");
-            navigate("/"); // Siirretään käyttäjä etusivulle
+            navigate("/");
           } else {
             throw new Error("Tilin poisto epäonnistui.");
           }
