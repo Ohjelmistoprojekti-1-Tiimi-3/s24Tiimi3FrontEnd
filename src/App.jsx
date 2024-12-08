@@ -9,6 +9,12 @@ function App() {
         <Link to={"/"}>Etusivu</Link>
         <Link to={"/products"}>Tuotteet</Link>
         <Link to={"/about"}>Meistä</Link>
+        <Link to={"/register"}>Rekisteröidy</Link>
+        <Link to={"/login"}>Kirjaudu</Link>
+        <Link to={"/account"}>Omat tiedot</Link>
+
+
+
       </nav>
       <Outlet />
     </>

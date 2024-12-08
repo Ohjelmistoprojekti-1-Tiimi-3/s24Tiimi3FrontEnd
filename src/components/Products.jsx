@@ -4,66 +4,58 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 
 export default function Products() {
-    const [products, setProducts] = useState([]);
+
+    const [products, setProducts] = useState([{ productname: "", price: "", color: "", info: "" }]);
     const [manufacturers, setManufacturers] = useState([]);
     const [selectedManufacturer, setSelectedManufacturer] = useState("");
     const [colDefs] = useState([
         { field: 'productname' },
         { field: 'price' },
         { field: 'color' },
-        { field: 'info' },
+        { field: 'info' }
     ]);
 
-    // Hakee tuotteet valitun valmistajan perusteella
+    // Hakee kaikki tuotteet tai suodattaa tuotteet valitun valmistajan mukaan
     const getProducts = (manufacturerId = "") => {
         const url = manufacturerId
-            ? `https://tiimi-3-back-end-tiimi3-backend.2.rahtiapp.fi/api/products?manufacturer=${manufacturerId}`
-            : "https://tiimi-3-back-end-tiimi3-backend.2.rahtiapp.fi/api/products";
+            ? `https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/products?manufacturer=${manufacturerId}`
+            : "https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/products";
         
         fetch(url, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                console.log("Products data: ", data);  // Näytä mitä dataa saadaan tuotteista
+                console.log("data ", data);
                 setProducts(data);  // Aseta tuotteet tilaan
             })
-            .catch(err => console.error("Error fetching products: ", err));
+            .catch(err => {
+                console.error("Error fetching products: ", err);
+            });
     };
 
     // Hakee valmistajat suodatusvalikkoa varten
     const getManufacturers = () => {
-        fetch("https://tiimi-3-back-end-tiimi3-backend.2.rahtiapp.fi/api/manufacturers", {
-            method: 'GET',
-        })
-            .then(response => {
-                if (!response.ok) {
-                    // Tarkistetaan, että vastaus on onnistunut
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();  // Yritetään jäsentää JSON
-            })
+        fetch("https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/manufacturers", { method: 'GET' })
+            .then(response => response.json())
             .then(data => {
-                console.log("Manufacturers data: ", data);  // Näytä mitä dataa saadaan valmistajista
-                if (Array.isArray(data)) {
-                    setManufacturers(data);  // Tallenna valmistajat tilaan
-                } else {
-                    console.error("Manufacturer data is not in expected format.");
-                }
+                console.log("Manufacturers data: ", data);
+                setManufacturers(data);  // Tallenna valmistajat tilaan
             })
             .catch(err => {
                 console.error("Error fetching manufacturers: ", err);
             });
     };
 
-    useEffect(() => {
-        getProducts();  // Hakee kaikki tuotteet aluksi
-        getManufacturers();  // Hakee valmistajat valikkoa varten
-    }, []);
-
+    // Suodatetaan tuotteet valitun valmistajan mukaan
     const handleManufacturerChange = (event) => {
         const manufacturerId = event.target.value;
         setSelectedManufacturer(manufacturerId);
-        getProducts(manufacturerId);  // Suodatetaan tuotteet valitun valmistajan mukaan
+        getProducts(manufacturerId);  // Hakee tuotteet valitun valmistajan mukaan
     };
+
+    useEffect(() => {
+        getProducts();  // Hakee kaikki tuotteet aluksi
+        getManufacturers();  // Hakee valmistajat
+    }, []);
 
     return (
         <>
@@ -78,7 +70,7 @@ export default function Products() {
                             </option>
                         ))
                     ) : (
-                        <option value=""></option>
+                        <option value="">Ei valmistajia saatavilla</option>
                     )}
                 </select>
             </div>
