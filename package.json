@@ -10,7 +10,11 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "react-scripts start",
+    "test": "react-scripts test",
+    "proxy": "https://tiimi-3-back-end-tiimi3-backend.2.rahtiapp.fi",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
@@ -19,7 +23,9 @@
     "ag-grid-react": "^32.3.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.28.0"
+    "react-router-dom": "^6.28.0",
+    "react-scripts": "^5.0.1",
+    "tiimi3-frontend": "file:"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
