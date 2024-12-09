@@ -7,7 +7,7 @@ function App() {
 
   return (
     <>
-      <AppBar position='static'>
+      <AppBar position='static' >
         <Toolbar>
           <IconButton size='large' edge='start' color='inherit' aria-label='logo'>
             <PetsIcon />

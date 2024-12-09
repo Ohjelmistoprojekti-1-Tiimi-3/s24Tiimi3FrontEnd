@@ -2,17 +2,35 @@ import { AgGridReact } from "ag-grid-react";
 import { useEffect, useState } from "react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import { Box } from "@mui/material";
 
 export default function Products() {
 
-    const [products, setProducts] = useState([{ productname: "", price: "", color: "", info: "" }]);
+    const [products, setProducts] = useState([{
+        productname: "",
+        price: "",
+        color: "",
+        info: "",
+        manufacturer: {
+            manufacturername: ""
+        },
+        type: {
+            typename: ""
+        },
+        size: {
+            size: ""
+        }
+    }]);
     const [manufacturers, setManufacturers] = useState([]);
     const [selectedManufacturer, setSelectedManufacturer] = useState("");
     const [colDefs] = useState([
-        { field: 'productname' },
-        { field: 'price' },
-        { field: 'color' },
-        { field: 'info' }
+        { field: 'productname', headerName: 'Nimi' },
+        { field: 'price', headerName: 'Hinta' },
+        { field: 'color', headerName: 'Väri' },
+        { field: 'manufacturer.manufacturername', headerName: 'Valmistaja'},
+        { field: 'type.typename', headerName: 'Tuotetyyppi'},
+        { field: 'size.size', headerName: 'Koko'},
+        { field: 'info', headerName: 'Lisätitetoja' },
     ]);
 
     // Hakee kaikki tuotteet tai suodattaa tuotteet valitun valmistajan mukaan
@@ -20,7 +38,7 @@ export default function Products() {
         const url = manufacturerName
             ? `https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/searchByManufacturer?manufacturer=${manufacturerName}`
             : "https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/products";
-        
+
         fetch(url, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
@@ -53,13 +71,15 @@ export default function Products() {
         getProducts(manufacturerName);  // Hakee tuotteet valitun valmistajan mukaan
     };
 
-    useEffect(() => { 
+    useEffect(() => {
         getProducts();  // Hakee kaikki tuotteet aluksi
         getManufacturers();  // Hakee valmistajat
     }, []);
 
     return (
         <>
+        <Box sx={{ padding: 5 }}>
+
             <div>
                 <label>Valitse valmistaja: </label>
                 <select value={selectedManufacturer} onChange={handleManufacturerChange}>
@@ -76,12 +96,13 @@ export default function Products() {
                 </select>
             </div>
 
-            <div className="ag-theme-material" style={{ width: 900, height: 500 }}>
-                <AgGridReact 
+            <div className="ag-theme-material" style={{ width: '90%', height: 1000 }}>
+                <AgGridReact
                     rowData={products}
                     columnDefs={colDefs}
-                />
+                    />
             </div>
+                    </Box>
         </>
     );
 }
