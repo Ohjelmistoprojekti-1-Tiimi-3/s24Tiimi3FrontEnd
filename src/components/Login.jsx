@@ -10,7 +10,7 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    fetch("https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/appuser/{username}", {
+    fetch("https://tiimi-3-back-end-tiimi3-backend.2.rahtiapp.fi/api/appuser/{username}", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

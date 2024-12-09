@@ -10,7 +10,7 @@ const Account = () => {
     const currentUserEmail = localStorage.getItem("currentUserEmail");
 
     if (currentUserEmail) {
-      fetch(`https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/customers/${currentUserEmail}`)
+      fetch(`https://tiimi-3-back-end-tiimi3-backend.2.rahtiapp.fi/api/customers/${currentUserEmail}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error("Käyttäjätietojen lataaminen epäonnistui.");
@@ -35,7 +35,7 @@ const Account = () => {
     if (window.confirm("Haluatko varmasti poistaa tilisi? Tämä ei ole peruttavissa.")) {
       const currentUserEmail = localStorage.getItem("currentUserEmail");
 
-      fetch(`https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/customers/${currentUserEmail}`, {
+      fetch(`https://tiimi-3-back-end-tiimi3-backend.2.rahtiapp.fi/api/customers/${currentUserEmail}`, {
         method: "DELETE",
       })
         .then((response) => {

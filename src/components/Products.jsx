@@ -36,8 +36,8 @@ export default function Products() {
     // Hakee kaikki tuotteet tai suodattaa tuotteet valitun valmistajan mukaan
     const getProducts = (manufacturerName = "") => {
         const url = manufacturerName
-            ? `https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/searchByManufacturer?manufacturer=${manufacturerName}`
-            : "https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/products";
+            ? `https://tiimi-3-back-end-tiimi3-backend.2.rahtiapp.fi/api/searchByManufacturer?manufacturer=${manufacturerName}`
+            : "https://tiimi-3-back-end-tiimi3-backend.2.rahtiapp.fi/api/products";
 
         fetch(url, { method: 'GET' })
             .then(response => response.json())
@@ -52,7 +52,7 @@ export default function Products() {
 
     // Hakee valmistajat suodatusvalikkoa varten
     const getManufacturers = () => {
-        fetch("https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/manufacturers", { method: 'GET' })
+        fetch("https://tiimi-3-back-end-tiimi3-backend.2.rahtiapp.fi/api/manufacturers", { method: 'GET' })
             .then(response => response.json())
             .then(data => {
                 console.log("Fetched manufacturers: ", data);

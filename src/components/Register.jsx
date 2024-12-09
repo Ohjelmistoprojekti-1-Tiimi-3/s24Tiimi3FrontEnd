@@ -34,7 +34,7 @@ export default function Register() {
     }
 
     // 1. Rekisteröidään asiakas
-    fetch("https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/addcustomer", {
+    fetch("https://tiimi-3-back-end-tiimi3-backend.2.rahtiapp.fi/api/addcustomer", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export default function Register() {
         console.log("Add customer:", data);
         if (data.id) {
           // 2. Rekisteröidään appuser (käyttäjätunnus ja salasana)
-          fetch("https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/addappuser", {
+          fetch("https://tiimi-3-back-end-tiimi3-backend.2.rahtiapp.fi/api/addappuser", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -66,7 +66,7 @@ export default function Register() {
               if (userData.id) {
                 // 3. Liitetään appuser customeriin
                 fetch(
-                  `https://tiimi3-backend-tiimi3-backend.2.rahtiapp.fi/api/customer/${id}`,
+                  `https://tiimi-3-back-end-tiimi3-backend.2.rahtiapp.fi/api/customer/${id}`,
                   {
                     method: "PUT",
                     headers: {
